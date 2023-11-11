@@ -12,7 +12,7 @@
 
     <groupId>hu.example</groupId>
     <artifactId>java-spring-boot-example</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
     <name>java-spring-boot-example</name>
     <description>java-spring-boot-example</description>
 
@@ -21,16 +21,23 @@
     </properties>
 
     <dependencies>
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-security</artifactId>-->
-<!--        </dependency>-->
+        <!-- SPRING -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+
+        <!-- LOMBOK -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -44,40 +51,105 @@
             <version>2.2.0</version>
         </dependency>
 
-        <!-- H2 DATABASE -->
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-
         <!-- POSTGRESQL DATABASE -->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
         </dependency>
 
+        <!-- MAPSTRUCT -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>1.5.5.Final</version>
         </dependency>
+
+        <!-- JWT -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>0.9.1</version>
+        </dependency>
+
+        <!-- H2 DATABASE -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>2.1.210</version>
+            <scope>runtime</scope>
+        </dependency>
+
+
+<!--        &lt;!&ndash; https://mvnrepository.com/artifact/org.liquibase/liquibase-core &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>org.liquibase</groupId>-->
+<!--            <artifactId>liquibase-core</artifactId>-->
+<!--            <version>${liquibase.version}</version>-->
+<!--        </dependency> //TODO: kivenni ha nem kell-->
+
     </dependencies>
 
     <build>
         <plugins>
             <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-maven-plugin</artifactId>
+                <version>${liquibase.version}</version>
                 <configuration>
-                    <image>
-                        <builder>paketobuildpacks/builder-jammy-base:latest</builder>
-                    </image>
-                    <excludes>
-                        <exclude>
+                    <driver>org.h2.Driver</driver>
+                    <url>jdbc:h2:file:${basedir}/h2data/java-spring-boot-example-application-h2</url>
+                    <defaultSchemaName>public</defaultSchemaName>
+                    <username>sa</username>
+                    <password>password</password>
+                    <changeLogFile>${basedir}/src/main/resources/migration/liquibase-changelog.xml</changeLogFile>
+                    <outputChangeLogFile>${basedir}/changelog.xml</outputChangeLogFile>
+                </configuration>
+            </plugin>
+
+            <!--            <plugin>-->
+            <!--                <groupId>org.springframework.boot</groupId>-->
+            <!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
+            <!--                <configuration>-->
+            <!--                    <image>-->
+            <!--                        <builder>paketobuildpacks/builder-jammy-base:latest</builder>-->
+            <!--                    </image>-->
+            <!--                    <excludes>-->
+            <!--                        <exclude>-->
+            <!--                            <groupId>org.projectlombok</groupId>-->
+            <!--                            <artifactId>lombok</artifactId>-->
+            <!--                        </exclude>-->
+            <!--                    </excludes>-->
+            <!--                </configuration>-->
+            <!--            </plugin>-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version>
+                <configuration>
+                    <annotationProcessorPaths>
+                        <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
-                        </exclude>
-                    </excludes>
+                            <version>${lombok.version}</version>
+                        </path>
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>1.5.5.Final</version>
+                        </path>
+                        <!--                        <path>-->
+                        <!--                            <groupId>org.projectlombok</groupId>-->
+                        <!--                            <artifactId>lombok-mapstruct-binding</artifactId>-->
+                        <!--                            <version>${lombok-mapstruct-binding.version}</version>-->
+                        <!--                        </path>-->
+                    </annotationProcessorPaths>
+                    <!--                    <annotationProcessorPaths>-->
+                    <!--                        <path>-->
+                    <!--                            <groupId>org.mapstruct</groupId>-->
+                    <!--                            <artifactId>mapstruct-processor</artifactId>-->
+                    <!--                            <version>1.5.5.Final</version>-->
+                    <!--                        </path>-->
+                    <!--                    </annotationProcessorPaths>-->
                 </configuration>
             </plugin>
         </plugins>

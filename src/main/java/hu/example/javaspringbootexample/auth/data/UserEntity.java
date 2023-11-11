@@ -5,7 +5,9 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.UuidGenerator;
 
@@ -20,6 +22,8 @@ import java.util.UUID;
         })
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserEntity {
 
     @Id
@@ -44,4 +48,9 @@ public class UserEntity {
             joinColumns = @JoinColumn(name = "USER_ID"),
             inverseJoinColumns = @JoinColumn(name = "ROLE_ID"))
     private Set<RoleEntity> roleEntities = new HashSet<>();
+
+    public UserEntity(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
 }

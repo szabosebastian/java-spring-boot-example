@@ -1,0 +1,67 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd"
+                   logicalFilePath="01-initial-schema.xml">
+    <changeSet author="Example" id="1699729234804-1">
+        <createTable tableName="ROLES">
+            <column name="ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_4A"/>
+            </column>
+            <column name="NAME" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Example" id="1699729234804-2">
+        <createTable tableName="USERS">
+            <column name="ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_4D"/>
+            </column>
+            <column name="EMAIL" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PASSWORD" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Example" id="1699729234804-3">
+        <createTable tableName="USER_ROLES">
+            <column name="USER_ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_C"/>
+            </column>
+            <column name="ROLE_ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_C"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Example" id="1699729234804-4">
+        <addUniqueConstraint columnNames="EMAIL" constraintName="UKKU29J688XLCI1KSOPVJFGPSWP" tableName="USERS"/>
+    </changeSet>
+    <changeSet author="Example" id="1699729234804-5">
+        <addUniqueConstraint columnNames="EMAIL" constraintName="UK_6DOTKOTT2KJSP8VW4D0M25FB7" tableName="USERS"/>
+    </changeSet>
+    <changeSet author="Example" id="1699729234804-6">
+        <createIndex indexName="FKH8CIRAMU9CC9Q3QCQIV4UE8A6_INDEX_C" tableName="USER_ROLES">
+            <column name="ROLE_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Example" id="1699729234804-7">
+        <createIndex indexName="FKHFH9DX7W3UBF1CO1VDEV94G3F_INDEX_C" tableName="USER_ROLES">
+            <column name="USER_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Example" id="1699729234804-8">
+        <addForeignKeyConstraint baseColumnNames="ROLE_ID" baseTableName="USER_ROLES"
+                                 constraintName="FKH8CIRAMU9CC9Q3QCQIV4UE8A6" deferrable="false"
+                                 initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="ID" referencedTableName="ROLES" validate="true"/>
+    </changeSet>
+    <changeSet author="Example" id="1699729234804-9">
+        <addForeignKeyConstraint baseColumnNames="USER_ID" baseTableName="USER_ROLES"
+                                 constraintName="FKHFH9DX7W3UBF1CO1VDEV94G3F" deferrable="false"
+                                 initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+    </changeSet>
+</databaseChangeLog>
