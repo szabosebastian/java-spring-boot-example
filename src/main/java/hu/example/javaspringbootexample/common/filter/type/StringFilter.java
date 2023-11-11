@@ -40,7 +40,9 @@ public class StringFilter implements Filter {
         this(value, StringFilterType.CONTAINS);
     }
 
-    public StringFilter(@NotNull String value, @NotNull StringFilterType type) { this(value, type, StringFilterMode.CASE_INSENSITIVE); }
+    public StringFilter(@NotNull String value, @NotNull StringFilterType type) {
+        this(value, type, StringFilterMode.CASE_INSENSITIVE);
+    }
 
     public StringFilter(@NotNull String value, @NotNull StringFilterType type, @NotNull StringFilterMode mode) {
         this.value = value;
@@ -61,7 +63,7 @@ public class StringFilter implements Filter {
 
         String filterValue = value;
 
-        if (mode == StringFilterMode.CASE_INSENSITIVE){
+        if (mode == StringFilterMode.CASE_INSENSITIVE) {
             filterValue = filterValue.toLowerCase();
             resolvedPath = builder.lower(resolvedPath);
         }

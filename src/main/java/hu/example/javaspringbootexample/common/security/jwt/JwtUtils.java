@@ -49,7 +49,7 @@ public class JwtUtils {
     public String geEmailFromJwtToken(String token) {
         var emailClaim = Optional.ofNullable(Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().get(JWT_EMAIL_CLAIM));
 
-        if(emailClaim.isPresent()) {
+        if (emailClaim.isPresent()) {
             return emailClaim.get().toString();
         }
 

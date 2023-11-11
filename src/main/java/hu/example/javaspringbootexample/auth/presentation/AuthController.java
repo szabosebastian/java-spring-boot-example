@@ -5,7 +5,6 @@ import hu.example.javaspringbootexample.auth.model.request.LoginRequest;
 import hu.example.javaspringbootexample.auth.model.request.SignupRequest;
 import hu.example.javaspringbootexample.auth.model.response.JwtResponse;
 import hu.example.javaspringbootexample.auth.service.AuthService;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
