@@ -1,0 +1,17 @@
+server:
+  servlet:
+    context-path: /api
+  port: 9000
+
+spring:
+  application:
+    name: java-spring-boot-example
+  profiles:
+    active: local
+  jpa:
+    hibernate:
+      ddl-auto: none
+#  liquibase:
+#    enabled: true
+#    change-log: classpath:migration/liquibase-changelog.xml
+#    contexts: initial-data
