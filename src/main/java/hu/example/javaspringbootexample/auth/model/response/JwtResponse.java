@@ -12,7 +12,9 @@ import java.util.UUID;
 @NoArgsConstructor
 public class JwtResponse {
 
-    private String token;
+    private String accessToken;
+
+    private String refreshToken;
 
     private String type = "Bearer";
 
@@ -22,8 +24,9 @@ public class JwtResponse {
 
     private List<String> roles;
 
-    public JwtResponse(String token, UUID id, String email, List<String> roles) {
-        this.token = token;
+    public JwtResponse(String accessToken, String refreshToken,  UUID id, String email, List<String> roles) {
+        this.accessToken = accessToken;
+        this.refreshToken = refreshToken;
         this.id = id;
         this.email = email;
         this.roles = roles;

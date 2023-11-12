@@ -4,9 +4,12 @@ import hu.example.javaspringbootexample.application.user.model.UserResponse;
 import hu.example.javaspringbootexample.auth.model.request.LoginRequest;
 import hu.example.javaspringbootexample.auth.model.request.SignupRequest;
 import hu.example.javaspringbootexample.auth.model.response.JwtResponse;
+import hu.example.javaspringbootexample.auth.model.response.TokenResponse;
 import hu.example.javaspringbootexample.auth.service.AuthService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,8 +30,9 @@ public class AuthController {
         return authService.registerUser(signUpRequest);
     }
 
-    @GetMapping("/token")
-    public ResponseEntity<?> getToken() {
-        return authService.getToken();
+    @PostMapping("/refresh-token")
+    public ResponseEntity<TokenResponse> refreshToken(HttpServletRequest request) {
+        return new ResponseEntity<>(authService.refreshToken(request), HttpStatus.OK);
     }
+
 }

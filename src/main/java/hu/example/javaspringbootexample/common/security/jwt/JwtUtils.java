@@ -26,11 +26,15 @@ public class JwtUtils {
     @Value("${app.security.jwtExpirationMs}")
     private int jwtExpirationMs;
 
-    public String generateJwtToken(Authentication authentication) {
+    @Value("${app.security.jwtRefreshExpirationMs}")
+    private int jwtRefreshExpirationMs;
+
+    public String generateAccessJwtToken(Authentication authentication) {
 
         UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
 
         return Jwts.builder()
+                .setSubject(userPrincipal.getEmail())
                 .setClaims(getClaims(userPrincipal))
                 .setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
@@ -38,7 +42,19 @@ public class JwtUtils {
                 .compact();
     }
 
-    public Map<String, Object> getClaims(UserDetailsImpl user) {
+    public String generateRefreshJwtToken(Authentication authentication) {
+
+        UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
+
+        return Jwts.builder()
+                .setSubject(userPrincipal.getEmail())
+                .setIssuedAt(new Date())
+                .setExpiration(new Date((new Date()).getTime() + jwtRefreshExpirationMs))
+                .signWith(SignatureAlgorithm.HS512, jwtSecret)
+                .compact();
+    }
+
+    private Map<String, Object> getClaims(UserDetailsImpl user) {
         var map = new HashMap<String, Object>();
         map.put("id", user.getId());
         map.put("email", user.getEmail());
@@ -46,14 +62,14 @@ public class JwtUtils {
         return map;
     }
 
-    public String geEmailFromJwtToken(String token) {
-        var emailClaim = Optional.ofNullable(Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().get(JWT_EMAIL_CLAIM));
+    public String geSubjectFromJwtToken(String token) {
+        var emailClaim = Optional.ofNullable(Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject());
 
         if (emailClaim.isPresent()) {
-            return emailClaim.get().toString();
+            return emailClaim.get();
         }
 
-        throw new UnsupportedJwtException("Claim not found in token!");
+        throw new UnsupportedJwtException("Subject not found in token!");
     }
 
     public boolean validateJwtToken(String authToken) {

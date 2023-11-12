@@ -18,4 +18,5 @@ spring:
 app:
   security:
     jwtSecret: PLACEHOLDER
-    jwtExpirationMs: 1000000
+    jwtExpirationMs: 100000
+    jwtRefreshExpirationMs: 1000000
