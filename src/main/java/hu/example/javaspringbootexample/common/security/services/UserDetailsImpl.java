@@ -1,7 +1,7 @@
 package hu.example.javaspringbootexample.common.security.services;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import hu.example.javaspringbootexample.auth.data.UserEntity;
+import hu.example.javaspringbootexample.application.idm.user.data.UserEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

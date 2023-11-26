@@ -1,9 +1,9 @@
-package hu.example.javaspringbootexample.application.user.mapper;
+package hu.example.javaspringbootexample.application.idm.user.mapper;
 
-import hu.example.javaspringbootexample.application.user.model.UserResponse;
-import hu.example.javaspringbootexample.auth.data.RoleEntity;
-import hu.example.javaspringbootexample.auth.data.RoleName;
-import hu.example.javaspringbootexample.auth.data.UserEntity;
+import hu.example.javaspringbootexample.application.idm.user.model.UserResponse;
+import hu.example.javaspringbootexample.application.idm.user.data.RoleEntity;
+import hu.example.javaspringbootexample.application.idm.user.data.RoleName;
+import hu.example.javaspringbootexample.application.idm.user.data.UserEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;

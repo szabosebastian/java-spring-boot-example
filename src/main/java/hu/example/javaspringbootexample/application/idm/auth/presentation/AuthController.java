@@ -1,11 +1,11 @@
-package hu.example.javaspringbootexample.auth.presentation;
+package hu.example.javaspringbootexample.application.idm.auth.presentation;
 
-import hu.example.javaspringbootexample.application.user.model.UserResponse;
-import hu.example.javaspringbootexample.auth.model.request.LoginRequest;
-import hu.example.javaspringbootexample.auth.model.request.SignupRequest;
-import hu.example.javaspringbootexample.auth.model.response.JwtResponse;
-import hu.example.javaspringbootexample.auth.model.response.TokenResponse;
-import hu.example.javaspringbootexample.auth.service.AuthService;
+import hu.example.javaspringbootexample.application.idm.user.model.UserResponse;
+import hu.example.javaspringbootexample.application.idm.auth.model.request.LoginRequest;
+import hu.example.javaspringbootexample.application.idm.auth.model.request.SignupRequest;
+import hu.example.javaspringbootexample.application.idm.auth.model.response.JwtResponse;
+import hu.example.javaspringbootexample.application.idm.auth.model.response.TokenResponse;
+import hu.example.javaspringbootexample.application.idm.auth.service.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;

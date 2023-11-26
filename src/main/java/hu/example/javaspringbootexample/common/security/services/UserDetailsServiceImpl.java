@@ -1,7 +1,7 @@
 package hu.example.javaspringbootexample.common.security.services;
 
-import hu.example.javaspringbootexample.auth.data.UserEntity;
-import hu.example.javaspringbootexample.auth.data.repository.UserRepository;
+import hu.example.javaspringbootexample.application.idm.user.data.UserEntity;
+import hu.example.javaspringbootexample.application.idm.user.data.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

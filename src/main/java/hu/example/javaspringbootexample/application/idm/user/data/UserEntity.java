@@ -1,4 +1,4 @@
-package hu.example.javaspringbootexample.auth.data;
+package hu.example.javaspringbootexample.application.idm.user.data;
 
 
 import jakarta.persistence.*;

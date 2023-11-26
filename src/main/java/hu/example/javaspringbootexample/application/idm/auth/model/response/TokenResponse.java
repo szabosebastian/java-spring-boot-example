@@ -1,4 +1,4 @@
-package hu.example.javaspringbootexample.auth.model.response;
+package hu.example.javaspringbootexample.application.idm.auth.model.response;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;

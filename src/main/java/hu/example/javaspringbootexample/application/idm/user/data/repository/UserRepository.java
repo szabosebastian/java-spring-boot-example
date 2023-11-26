@@ -1,6 +1,6 @@
-package hu.example.javaspringbootexample.auth.data.repository;
+package hu.example.javaspringbootexample.application.idm.user.data.repository;
 
-import hu.example.javaspringbootexample.auth.data.UserEntity;
+import hu.example.javaspringbootexample.application.idm.user.data.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;

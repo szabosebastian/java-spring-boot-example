@@ -1,7 +1,7 @@
-package hu.example.javaspringbootexample.auth.data.repository;
+package hu.example.javaspringbootexample.application.idm.user.data.repository;
 
-import hu.example.javaspringbootexample.auth.data.RoleEntity;
-import hu.example.javaspringbootexample.auth.data.RoleName;
+import hu.example.javaspringbootexample.application.idm.user.data.RoleEntity;
+import hu.example.javaspringbootexample.application.idm.user.data.RoleName;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

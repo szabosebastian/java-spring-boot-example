@@ -1,4 +1,4 @@
-package hu.example.javaspringbootexample.auth.model.request;
+package hu.example.javaspringbootexample.application.idm.auth.model.request;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
