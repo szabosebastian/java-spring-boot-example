@@ -1,16 +1,17 @@
 package hu.example.javaspringbootexample.application.idm.auth.service;
 
-import hu.example.javaspringbootexample.application.idm.user.mapper.UserMapper;
-import hu.example.javaspringbootexample.application.idm.user.model.UserResponse;
+import hu.example.javaspringbootexample.application.idm.auth.model.request.LoginRequest;
+import hu.example.javaspringbootexample.application.idm.auth.model.request.SignupExtendedRequest;
+import hu.example.javaspringbootexample.application.idm.auth.model.request.SignupRequest;
+import hu.example.javaspringbootexample.application.idm.auth.model.response.JwtResponse;
+import hu.example.javaspringbootexample.application.idm.auth.model.response.TokenResponse;
 import hu.example.javaspringbootexample.application.idm.user.data.RoleEntity;
 import hu.example.javaspringbootexample.application.idm.user.data.RoleName;
 import hu.example.javaspringbootexample.application.idm.user.data.UserEntity;
 import hu.example.javaspringbootexample.application.idm.user.data.repository.RoleRepository;
 import hu.example.javaspringbootexample.application.idm.user.data.repository.UserRepository;
-import hu.example.javaspringbootexample.application.idm.auth.model.request.LoginRequest;
-import hu.example.javaspringbootexample.application.idm.auth.model.request.SignupRequest;
-import hu.example.javaspringbootexample.application.idm.auth.model.response.JwtResponse;
-import hu.example.javaspringbootexample.application.idm.auth.model.response.TokenResponse;
+import hu.example.javaspringbootexample.application.idm.user.mapper.UserMapper;
+import hu.example.javaspringbootexample.application.idm.user.model.UserResponse;
 import hu.example.javaspringbootexample.common.exception.BusinessValidationException;
 import hu.example.javaspringbootexample.common.security.jwt.JwtUtils;
 import hu.example.javaspringbootexample.common.security.services.UserDetailsImpl;
@@ -84,7 +85,11 @@ public class AuthService {
                 roles);
     }
 
-    public UserResponse registerUser(SignupRequest signUpRequest) {
+    public UserResponse registerPublicUser(SignupRequest signUpRequest) {
+        return registerUser(new SignupExtendedRequest(signUpRequest, Set.of(RoleName.ROLE_USER)));
+    }
+
+    public UserResponse registerUser(SignupExtendedRequest signUpRequest) {
 
         if (userRepository.existsByEmail(signUpRequest.getEmail())) {
             throw new BusinessValidationException(HttpStatus.BAD_REQUEST, 400, "Error: Email is already in use!");
@@ -92,37 +97,33 @@ public class AuthService {
 
         validateEmailFormat(signUpRequest.getEmail());
 
-        // Create new user's account
         UserEntity userEntity = new UserEntity(
                 signUpRequest.getEmail(),
                 encoder.encode(signUpRequest.getPassword()));
 
-        Set<RoleName> strRoles = Set.of(RoleName.ROLE_USER); //TODO: roles setting
-        Set<RoleEntity> roleEntities = new HashSet<>();
-
-        if (strRoles == null) {
-            RoleEntity userRoleEntity = roleRepository.findByName(RoleName.ROLE_USER)
-                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-            roleEntities.add(userRoleEntity);
-        } else {
-            strRoles.forEach(role -> {
-                if (RoleName.ROLE_ADMIN.equals(role)) {
-                    RoleEntity adminRoleEntity = roleRepository.findByName(RoleName.ROLE_ADMIN)
-                            .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                    roleEntities.add(adminRoleEntity);
-                } else {
-                    RoleEntity userRoleEntity = roleRepository.findByName(RoleName.ROLE_USER)
-                            .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                    roleEntities.add(userRoleEntity);
-                }
-            });
-        }
+        Set<RoleEntity> roleEntities = getRoleEntities(signUpRequest);
 
         userEntity.setRoleEntities(roleEntities);
         userEntity = userRepository.save(userEntity);
 
-        log.info("User registered successfully!");
+        log.info(signUpRequest.getEmail() + " registered successfully!");
         return userMapper.mapToUserResponse(userEntity);
+    }
+
+    private Set<RoleEntity> getRoleEntities(SignupExtendedRequest signUpRequest) {
+        Set<RoleName> strRoles = signUpRequest.getRoles();
+        Set<RoleEntity> roleEntities = new HashSet<>();
+
+        if (strRoles == null) {
+            throw new RuntimeException("Error: Role is not found.");
+        } else {
+            strRoles.forEach(role -> {
+                RoleEntity roleEntity = roleRepository.findByName(role)
+                        .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                roleEntities.add(roleEntity);
+            });
+        }
+        return roleEntities;
     }
 
     public void validateEmailFormat(String email) {
