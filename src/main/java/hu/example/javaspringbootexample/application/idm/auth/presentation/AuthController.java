@@ -1,7 +1,6 @@
 package hu.example.javaspringbootexample.application.idm.auth.presentation;
 
-import hu.example.javaspringbootexample.application.idm.auth.model.request.SignupExtendedRequest;
-import hu.example.javaspringbootexample.application.idm.user.model.UserResponse;
+import hu.example.javaspringbootexample.application.idm.user.model.response.UserResponse;
 import hu.example.javaspringbootexample.application.idm.auth.model.request.LoginRequest;
 import hu.example.javaspringbootexample.application.idm.auth.model.request.SignupRequest;
 import hu.example.javaspringbootexample.application.idm.auth.model.response.JwtResponse;

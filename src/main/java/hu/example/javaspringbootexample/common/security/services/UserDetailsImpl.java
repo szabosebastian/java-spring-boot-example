@@ -18,16 +18,19 @@ public class UserDetailsImpl implements UserDetails {
 
     private String email;
 
+    private UUID jwtSubject;
+
     @JsonIgnore
     private String password;
 
     private Collection<? extends GrantedAuthority> authorities;
 
-    public UserDetailsImpl(UUID id, String email, String password,
+    public UserDetailsImpl(UUID id, String email, String password, UUID jwtSubject,
                            Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.email = email;
         this.password = password;
+        this.jwtSubject = jwtSubject;
         this.authorities = authorities;
     }
 
@@ -40,6 +43,7 @@ public class UserDetailsImpl implements UserDetails {
                 userEntity.getId(),
                 userEntity.getEmail(),
                 userEntity.getPassword(),
+                userEntity.getJwtSubject(),
                 authorities);
     }
 
@@ -54,6 +58,10 @@ public class UserDetailsImpl implements UserDetails {
 
     public String getEmail() {
         return email;
+    }
+
+    public UUID getJwtSubject() {
+        return jwtSubject;
     }
 
     @Override

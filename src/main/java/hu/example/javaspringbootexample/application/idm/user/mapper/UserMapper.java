@@ -1,6 +1,6 @@
 package hu.example.javaspringbootexample.application.idm.user.mapper;
 
-import hu.example.javaspringbootexample.application.idm.user.model.UserResponse;
+import hu.example.javaspringbootexample.application.idm.user.model.response.UserResponse;
 import hu.example.javaspringbootexample.application.idm.user.data.RoleEntity;
 import hu.example.javaspringbootexample.application.idm.user.data.RoleName;
 import hu.example.javaspringbootexample.application.idm.user.data.UserEntity;

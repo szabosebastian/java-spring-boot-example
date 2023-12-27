@@ -43,6 +43,9 @@ public class UserEntity {
     @Column(name = "PASSWORD", nullable = false)
     private String password;
 
+    @Column(name = "JWT_SUBJECT", nullable = false, unique = true)
+    private UUID jwtSubject;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "USER_ROLES",
             joinColumns = @JoinColumn(name = "USER_ID"),

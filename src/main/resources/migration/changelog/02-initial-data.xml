@@ -20,6 +20,7 @@
             <column name="ID" value="1293bdb7-9053-4bfb-b648-e10b65d1e17e"/>
             <column name="EMAIL" value="admin@example.hu"/>
             <column name="PASSWORD" value="$2a$10$JmfVllqoq1Tvkd/MEURoiu6qMxf216ix0i7Q1cd/DHd8p2jbKuW5C"/>
+            <column name="JWT_SUBJECT" value="1293bdb7-9053-4bfb-b648-e10b65d1e172"/>
         </insert>
         <insert tableName="USER_ROLES">
             <column name="USER_ID" value="1293bdb7-9053-4bfb-b648-e10b65d1e17e"/>

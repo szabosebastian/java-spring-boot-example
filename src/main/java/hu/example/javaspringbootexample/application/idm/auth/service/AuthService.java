@@ -11,7 +11,7 @@ import hu.example.javaspringbootexample.application.idm.user.data.UserEntity;
 import hu.example.javaspringbootexample.application.idm.user.data.repository.RoleRepository;
 import hu.example.javaspringbootexample.application.idm.user.data.repository.UserRepository;
 import hu.example.javaspringbootexample.application.idm.user.mapper.UserMapper;
-import hu.example.javaspringbootexample.application.idm.user.model.UserResponse;
+import hu.example.javaspringbootexample.application.idm.user.model.response.UserResponse;
 import hu.example.javaspringbootexample.common.exception.BusinessValidationException;
 import hu.example.javaspringbootexample.common.security.jwt.JwtUtils;
 import hu.example.javaspringbootexample.common.security.services.UserDetailsImpl;
@@ -31,6 +31,7 @@ import org.springframework.stereotype.Service;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
@@ -103,6 +104,7 @@ public class AuthService {
 
         Set<RoleEntity> roleEntities = getRoleEntities(signUpRequest);
 
+        userEntity.setJwtSubject(UUID.randomUUID());
         userEntity.setRoleEntities(roleEntities);
         userEntity = userRepository.save(userEntity);
 
@@ -160,5 +162,10 @@ public class AuthService {
         String accessToken = jwtUtils.generateAccessJwtToken(authenticationToken);
 
         return new TokenResponse(accessToken, refreshToken);
+    }
+
+    public void updateUserJwtSubjectForNewLogin(UserEntity userEntity) {
+        userEntity.setJwtSubject(UUID.randomUUID());
+        userRepository.save(userEntity);
     }
 }

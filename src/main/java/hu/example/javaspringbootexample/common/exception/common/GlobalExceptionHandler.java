@@ -32,7 +32,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 Instant.now(),
                 e.getStatusCode(),
                 e.getStatusMessage());
-        log.error(getStackTraceToString(e));
+        //log.error(getStackTraceToString(e)); TODO: enable console log for handled exceptions if needed
         return new ResponseEntity<>(error, e.getStatus());
     }
 

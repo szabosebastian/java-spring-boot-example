@@ -35,7 +35,7 @@ public class JwtUtils {
 
         return Jwts.builder()
                 .addClaims(getClaims(userPrincipal))
-                .setSubject(userPrincipal.getEmail())
+                .setSubject(userPrincipal.getJwtSubject().toString())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
@@ -47,7 +47,7 @@ public class JwtUtils {
         UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
 
         return Jwts.builder()
-                .setSubject(userPrincipal.getEmail())
+                .setSubject(userPrincipal.getJwtSubject().toString())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + jwtRefreshExpirationMs))
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
@@ -63,10 +63,10 @@ public class JwtUtils {
     }
 
     public String geSubjectFromJwtToken(String token) {
-        var emailClaim = Optional.ofNullable(Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject());
+        var subject = Optional.ofNullable(Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject());
 
-        if (emailClaim.isPresent()) {
-            return emailClaim.get();
+        if (subject.isPresent()) {
+            return subject.get();
         }
 
         throw new UnsupportedJwtException("Subject not found in token!");

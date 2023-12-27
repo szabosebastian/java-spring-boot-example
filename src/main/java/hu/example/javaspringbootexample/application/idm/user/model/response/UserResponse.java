@@ -1,4 +1,4 @@
-package hu.example.javaspringbootexample.application.idm.user.model;
+package hu.example.javaspringbootexample.application.idm.user.model.response;
 
 import hu.example.javaspringbootexample.application.idm.user.data.RoleName;
 import hu.example.javaspringbootexample.common.message.Response;
