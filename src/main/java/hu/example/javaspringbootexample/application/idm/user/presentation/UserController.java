@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@PreAuthorize(AuthRole.ADMIN_ROLE)
+//@PreAuthorize(AuthRole.ADMIN_ROLE)
 @RequestMapping("/user")
 @AllArgsConstructor
 public class UserController {

@@ -18,17 +18,8 @@ public class JwtResponse {
 
     private String type = "Bearer";
 
-    private UUID id;
-
-    private String email;
-
-    private List<String> roles;
-
-    public JwtResponse(String accessToken, String refreshToken,  UUID id, String email, List<String> roles) {
+    public JwtResponse(String accessToken, String refreshToken) {
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
-        this.id = id;
-        this.email = email;
-        this.roles = roles;
     }
 }
