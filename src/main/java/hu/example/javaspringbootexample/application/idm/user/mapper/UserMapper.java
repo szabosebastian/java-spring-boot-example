@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 public interface UserMapper {
 
     @Mapping(target = "roles", source = "roleEntities", qualifiedByName = "mapRoleEntityToRoleList")
+    @Mapping(target = "email", ignore = true)
     UserResponse mapToUserResponse(UserEntity userEntity);
 
     @Named("mapRoleEntityToRoleList")
