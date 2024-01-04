@@ -25,6 +25,7 @@ public class UserController {
 
     @GetMapping
     public PageResponse<UserResponse> listUsers(@ParameterObject UserFilter userFilter, @ParameterObject Pageable pageable) {
+        System.out.println("Test");
         return service.listUsers(userFilter, pageable);
     }
 
