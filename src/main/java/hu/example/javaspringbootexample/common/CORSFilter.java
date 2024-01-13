@@ -1,3 +1,4 @@
+/*
 package hu.example.javaspringbootexample.common;
 
 import jakarta.servlet.*;
@@ -42,3 +43,4 @@ public class CORSFilter implements Filter {
     public void destroy() {
     }
 }
+*/
