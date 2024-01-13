@@ -13,6 +13,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -22,6 +24,18 @@ import java.util.UUID;
 public class UserController {
 
     private UserService service;
+
+    @GetMapping("/test")
+    public List<UserResponse> test() {
+        List<UserResponse> results = new ArrayList<>();
+        for (int i = 0; i < 10000; i++) {
+            var current = new UserResponse();
+            current.setId(UUID.randomUUID());
+            current.setEmail("Email: " + i);
+            results.add(current);
+        }
+        return results;
+    }
 
     @GetMapping
     public PageResponse<UserResponse> listUsers(@ParameterObject UserFilter userFilter, @ParameterObject Pageable pageable) {
