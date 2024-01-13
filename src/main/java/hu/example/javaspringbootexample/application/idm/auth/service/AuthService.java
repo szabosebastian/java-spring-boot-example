@@ -72,18 +72,9 @@ public class AuthService {
         String accessToken = jwtUtils.generateAccessJwtToken(authentication);
         String refreshToken = jwtUtils.generateRefreshJwtToken(authentication);
 
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        List<String> roles = userDetails.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.toList());
-
-        log.info("User authenticated successfully!");
         return new JwtResponse(
                 accessToken,
-                refreshToken,
-                userDetails.getId(),
-                userDetails.getEmail(),
-                roles);
+                refreshToken);
     }
 
     public UserResponse registerPublicUser(SignupRequest signUpRequest) {
@@ -113,13 +104,13 @@ public class AuthService {
     }
 
     private Set<RoleEntity> getRoleEntities(SignupExtendedRequest signUpRequest) {
-        Set<RoleName> strRoles = signUpRequest.getRoles();
+        Set<RoleName> requestedRoles = signUpRequest.getRoles();
         Set<RoleEntity> roleEntities = new HashSet<>();
 
-        if (strRoles == null) {
+        if (requestedRoles == null) {
             throw new RuntimeException("Error: Role is not found.");
         } else {
-            strRoles.forEach(role -> {
+            requestedRoles.forEach(role -> {
                 RoleEntity roleEntity = roleRepository.findByName(role)
                         .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
                 roleEntities.add(roleEntity);

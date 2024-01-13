@@ -3,6 +3,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <properties>
+        <spring-boot-version>3.1.5</spring-boot-version>
+        <java.version>21</java.version>
+    </properties>
+
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -16,9 +21,6 @@
     <name>java-spring-boot-example</name>
     <description>java-spring-boot-example</description>
 
-    <properties>
-        <java.version>21</java.version>
-    </properties>
 
     <dependencies>
         <!-- SPRING -->
@@ -128,6 +130,18 @@
             <!--                    </excludes>-->
             <!--                </configuration>-->
             <!--            </plugin>-->
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>${spring-boot-version}</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>repackage</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>

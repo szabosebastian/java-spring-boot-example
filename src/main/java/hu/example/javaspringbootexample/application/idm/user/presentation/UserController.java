@@ -1,6 +1,5 @@
 package hu.example.javaspringbootexample.application.idm.user.presentation;
 
-import hu.example.javaspringbootexample.application.idm.auth.model.AuthRole;
 import hu.example.javaspringbootexample.application.idm.auth.model.request.SignupExtendedRequest;
 import hu.example.javaspringbootexample.application.idm.user.model.request.UserFilter;
 import hu.example.javaspringbootexample.application.idm.user.model.request.UserUpdateRequest;
@@ -11,14 +10,14 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
 @RestController
-@PreAuthorize(AuthRole.ADMIN_ROLE)
-@RequestMapping("/user")
+//@PreAuthorize(AuthRole.ADMIN_ROLE)
+@RequestMapping(value = "/user", produces = MediaType.APPLICATION_JSON_VALUE)
 @AllArgsConstructor
 public class UserController {
 
@@ -26,6 +25,7 @@ public class UserController {
 
     @GetMapping
     public PageResponse<UserResponse> listUsers(@ParameterObject UserFilter userFilter, @ParameterObject Pageable pageable) {
+        System.out.println("Test");
         return service.listUsers(userFilter, pageable);
     }
 
