@@ -14,25 +14,26 @@ import hu.example.javaspringbootexample.application.idm.user.mapper.UserMapper;
 import hu.example.javaspringbootexample.application.idm.user.model.response.UserResponse;
 import hu.example.javaspringbootexample.common.exception.BusinessValidationException;
 import hu.example.javaspringbootexample.common.security.jwt.JwtUtils;
-import hu.example.javaspringbootexample.common.security.services.UserDetailsImpl;
 import hu.example.javaspringbootexample.common.security.services.UserDetailsServiceImpl;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
@@ -47,6 +48,7 @@ public class AuthService {
     private final JwtUtils jwtUtils;
     private final UserMapper userMapper;
     private final UserDetailsServiceImpl userDetailsService;
+    private final int cookieExpirationMs;
 
     public AuthService(AuthenticationManager authenticationManager,
                        UserRepository userRepository,
@@ -54,7 +56,8 @@ public class AuthService {
                        PasswordEncoder encoder,
                        JwtUtils jwtUtils,
                        UserMapper userMapper,
-                       UserDetailsServiceImpl userDetailsService) {
+                       UserDetailsServiceImpl userDetailsService,
+                       @Value("${app.security.jwtExpirationMs}") int jwtExpirationMs) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
@@ -62,9 +65,10 @@ public class AuthService {
         this.jwtUtils = jwtUtils;
         this.userMapper = userMapper;
         this.userDetailsService = userDetailsService;
+        this.cookieExpirationMs = jwtExpirationMs + 1000;
     }
 
-    public JwtResponse authenticateUser(LoginRequest loginRequest) {
+    public JwtResponse authenticateUser(LoginRequest loginRequest, HttpServletResponse response) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
 
@@ -72,6 +76,13 @@ public class AuthService {
         String accessToken = jwtUtils.generateAccessJwtToken(authentication);
         String refreshToken = jwtUtils.generateRefreshJwtToken(authentication);
 
+        ResponseCookie accessTokenCookie = ResponseCookie.from("accessToken", accessToken)
+                .httpOnly(true)
+                .secure(false)
+                .maxAge(cookieExpirationMs) //TODO
+                .build();
+
+        response.addHeader(HttpHeaders.SET_COOKIE, accessTokenCookie.toString());
         return new JwtResponse(
                 accessToken,
                 refreshToken);

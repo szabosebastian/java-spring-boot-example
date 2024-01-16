@@ -9,6 +9,7 @@ import hu.example.javaspringbootexample.application.idm.auth.service.AuthService
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,8 +25,8 @@ public class AuthController {
     private AuthService authService;
 
     @PostMapping(value = "/signin")
-    public JwtResponse authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-        return authService.authenticateUser(loginRequest);
+    public JwtResponse authenticateUser(@Valid @RequestBody LoginRequest loginRequest, HttpServletResponse response) {
+        return authService.authenticateUser(loginRequest, response);
     }
 
 
@@ -34,6 +35,7 @@ public class AuthController {
         return authService.registerPublicUser(signUpRequest);
     }
 
+    //TODO: COOKIE
     @PostMapping("/refresh-token")
     public ResponseEntity<TokenResponse> refreshToken(HttpServletRequest request) {
         return new ResponseEntity<>(authService.refreshToken(request), HttpStatus.OK);
