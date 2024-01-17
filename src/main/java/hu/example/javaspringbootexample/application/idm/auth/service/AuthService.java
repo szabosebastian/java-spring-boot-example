@@ -78,6 +78,7 @@ public class AuthService {
 
         ResponseCookie accessTokenCookie = ResponseCookie.from("accessToken", accessToken)
                 .httpOnly(true)
+                .path("/api")
                 .secure(false)
                 .maxAge(cookieExpirationMs) //TODO
                 .build();

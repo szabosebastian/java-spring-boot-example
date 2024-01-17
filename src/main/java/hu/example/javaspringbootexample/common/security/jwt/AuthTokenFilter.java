@@ -48,7 +48,6 @@ public class AuthTokenFilter extends OncePerRequestFilter {
             log.error("Cannot set user authentication: {}", e);
         }
 
-        response.addCookie(new Cookie("JWT", "ASD"));
         filterChain.doFilter(request, response);
     }
 

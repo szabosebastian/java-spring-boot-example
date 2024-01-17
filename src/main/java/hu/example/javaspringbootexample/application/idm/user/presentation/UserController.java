@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-//@PreAuthorize(AuthRole.ADMIN_ROLE)
+@PreAuthorize(AuthRole.ADMIN_ROLE)
 @RequestMapping(value = "/user", produces = MediaType.APPLICATION_JSON_VALUE)
 @AllArgsConstructor
 public class UserController {
